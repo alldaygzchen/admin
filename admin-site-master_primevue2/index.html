@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mplus Admin</title>
+
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/primevue@^3/resources/themes/saga-blue/theme.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/primevue@^3/resources/primevue.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/primeflex@^3/primeflex.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/primeicons/primeicons.css" rel="stylesheet" />
+
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/primevue@^3/core/core.min.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.0/dist/vue-router.global.js"></script>
+    <!-- <script src="https://unpkg.com/primevue@^3/menubar/menubar.min.js"></script> -->
+
+    <script src="https://unpkg.com/primevue@^3/sidebar/sidebar.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/datatable/datatable.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/column/column.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/toolbar/toolbar.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/fileupload/fileupload.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/rating/rating.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/toast/toast.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/toastservice/toastservice.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/textarea/textarea.min.js"></script>
+    <script src="https://unpkg.com/primevue@^3/radiobutton/radiobutton.min.js"></script>
+
+    <script src="./ProductService.js"></script>
+    <script type="module" src="datatable.js"></script>
+    <script type="module" src="sidebar.js"></script>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="sidebar.css" />
+    <link rel="stylesheet" href="content.css" />
+  </head>
+
+  <body>
+    <section id="sidebar">
+      <a href="#" class="brand"
+        ><i class="bx bxs-smile icon"></i> Mplus Admin</a
+      >
+      <ul class="side-menu">
+        <li>
+          <a href="#datatable" class="active"
+            ><i class="bx bxs-dashboard icon"></i> DataTables</a
+          >
+        </li>
+        <li class="divider" data-text="settings">Settings</li>
+        <li>
+          <a href="#"
+            ><i class="bx bxs-inbox icon"></i> Tables
+            <i class="bx bx-chevron-right icon-right"></i
+          ></a>
+          <ul class="side-dropdown">
+            <li><a href="#">App</a></li>
+            <li><a href="#">User</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#chart"><i class="bx bxs-chart icon"></i> Charts</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- MAIN -->
+    <section id="content">
+      <div id="datatable">
+        <div class="card">
+          <p-toast></p-toast>
+
+          <p-toolbar class="mb-4">
+            <template #start>
+              <p-button
+                label="New"
+                icon="pi pi-plus"
+                class="p-button-success mr-2"
+                @click="openNew"
+              ></p-button>
+              <p-button
+                label="Delete"
+                icon="pi pi-trash"
+                class="p-button-danger"
+                @click="confirmDeleteSelected"
+                :disabled="!selectedProducts || !selectedProducts.length"
+              ></p-button>
+            </template>
+
+            <template #end>
+              <p-fileupload
+                mode="basic"
+                accept="image/*"
+                :maxFileSize="1000000"
+                label="Import"
+                chooseLabel="Import"
+                class="mr-2 inline-block"
+              ></p-fileupload>
+              <p-button
+                label="Export"
+                icon="pi pi-upload"
+                class="p-button-help"
+                @click="exportCSV($event)"
+              ></p-button>
+            </template>
+          </p-toolbar>
+
+          <p-datatable
+            ref="dt"
+            :value="products"
+            v-model:selection="selectedProducts"
+            dataKey="id"
+            :paginator="true"
+            :rows="10"
+            :filters="filters"
+            paginator-template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            :rows-per-page-options="[5,10,25]"
+            current-page-report-template="Showing {first} to {last} of {totalRecords} products"
+            responsive-layout="scroll"
+          >
+            <template #header>
+              <div
+                class="table-header flex flex-column md:flex-row md:justiify-content-between"
+              >
+                <h5 class="mb-2 md:m-0 p-as-md-center">Manage Users</h5>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <p-inputtext
+                    v-model="filters['global'].value"
+                    placeholder="Search..."
+                  ></p-inputtext>
+                </span>
+              </div>
+            </template>
+
+            <column
+              selectionMode="multiple"
+              style="width: 3rem"
+              :exportable="false"
+            ></column>
+            <column
+              field="code"
+              header="Code"
+              :sortable="true"
+              style="min-width: 12rem"
+            ></column>
+            <column
+              field="name"
+              header="Name"
+              :sortable="true"
+              style="min-width: 16rem"
+            ></column>
+            <!-- <column header="Image">
+                      <template #body="slotProps">
+                        <img src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" class="product-image" />
+                    </template>
+                </column> -->
+            <!-- <column field="price" header="Price" :sortable="true" style="min-width:8rem">
+                    <template #body="slotProps">
+                        {{formatCurrency(slotProps.data.price)}}
+                    </template>
+                </column>
+                <column field="category" header="Category" :sortable="true" style="min-width:10rem"></column>
+                <column field="rating" header="Reviews" :sortable="true" style="min-width:12rem">
+                    <template #body="slotProps">
+                        <p-rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false"></p-rating>
+                    </template>
+                </column> -->
+            <column
+              field="Status"
+              header="Status"
+              :sortable="true"
+              style="min-width: 12rem"
+            >
+              <template #body="slotProps">
+                <span
+                  :class="'product-badge status-' + (slotProps.data.Status ? slotProps.data.Status.toLowerCase() : '')"
+                  >{{slotProps.data.Status}}</span
+                >
+              </template>
+            </column>
+            <column :exportable="false" style="min-width: 8rem">
+              <template #body="slotProps">
+                <p-button
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success mr-2"
+                  @click="editProduct(slotProps.data)"
+                ></p-button>
+                <p-button
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+                  @click="confirmDeleteProduct(slotProps.data)"
+                ></p-button>
+              </template>
+            </column>
+          </p-datatable>
+        </div>
+
+        <p-dialog
+          v-model:visible="productDialog"
+          :style="{width: '450px'}"
+          header="User Details"
+          :modal="true"
+          class="p-fluid"
+        >
+          <!-- <img src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" class="product-image" v-if="product.image" /> -->
+          <div class="field">
+            <label for="name">Name</label>
+            <p-inputtext
+              id="name"
+              v-model.trim="product.name"
+              required="true"
+              autofocus
+              :class="{'p-invalid': submitted && !product.name}"
+            ></p-inputtext>
+            <small class="p-error" v-if="submitted && !product.name"
+              >Name is required.</small
+            >
+          </div>
+          <div class="field">
+            <label for="description">Description</label>
+            <p-textarea
+              id="description"
+              v-model="product.description"
+              required="true"
+              rows="3"
+              cols="20"
+            ></p-textarea>
+          </div>
+
+          <div class="field">
+            <label for="Status" class="mb-3">Inventory Status</label>
+            <p-dropdown
+              id="Status"
+              v-model="product.Status"
+              :options="statuses"
+              option-label="label"
+              placeholder="Select a Status"
+            >
+              <template #value="slotProps">
+                <div v-if="slotProps.value && slotProps.value.value">
+                  <span :class="'product-badge status-' +slotProps.value.value"
+                    >{{slotProps.value.label}}</span
+                  >
+                </div>
+                <div v-else-if="slotProps.value && !slotProps.value.value">
+                  <span
+                    :class="'product-badge status-' +slotProps.value.toLowerCase()"
+                    >{{slotProps.value}}</span
+                  >
+                </div>
+                <span v-else> {{slotProps.placeholder}} </span>
+              </template>
+            </p-dropdown>
+          </div>
+
+          <!-- <div class="field">
+                <label class="mb-3">Category</label>
+                <div class="formgrid grid">
+                    <div class="field-radiobutton col-6">
+                        <p-radiobutton id="category1" name="category" value="Accessories" v-model="product.category"></p-radiobutton>
+                        <label for="category1">Accessories</label>
+                    </div>
+                    <div class="field-radiobutton col-6">
+                        <p-radiobutton id="category2" name="category" value="Clothing" v-model="product.category"></p-radiobutton>
+                        <label for="category2">Clothing</label>
+                    </div>
+                    <div class="field-radiobutton col-6">
+                        <p-radiobutton id="category3" name="category" value="Electronics" v-model="product.category"></p-radiobutton>
+                        <label for="category3">Electronics</label>
+                    </div>
+                    <div class="field-radiobutton col-6">
+                        <p-radiobutton id="category4" name="category" value="Fitness" v-model="product.category"></p-radiobutton>
+                        <label for="category4">Fitness</label>
+                    </div>
+                </div>
+            </div> -->
+
+          <!-- <div class="formgrid grid">
+                <div class="field col">
+                    <label for="price">Price</label>
+                    <p-inputnumber id="price" v-model="product.price" mode="currency" currency="USD" locale="en-US"></p-inputnumber></p-inputnumber>
+                </div>
+                <div class="field col">
+                    <label for="quantity">Quantity</label>
+                    <p-inputnumber id="quantity" v-model="product.quantity" integeronly></p-inputnumber>
+                </div>
+            </div> -->
+          <template #footer>
+            <p-button
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-text"
+              @click="hideDialog"
+            ></p-button>
+            <p-button
+              label="Save"
+              icon="pi pi-check"
+              class="p-button-text"
+              @click="saveProduct"
+            ></p-button>
+          </template>
+        </p-dialog>
+
+        <p-dialog
+          v-model:visible="deleteProductDialog"
+          :style="{width: '450px'}"
+          header="Confirm"
+          :modal="true"
+        >
+          <div class="confirmation-content">
+            <i
+              class="pi pi-exclamation-triangle mr-3"
+              style="font-size: 2rem"
+            ></i>
+            <span v-if="product"
+              >Are you sure you want to delete <b>{{product.name}}</b>?</span
+            >
+          </div>
+          <template #footer>
+            <p-button
+              label="No"
+              icon="pi pi-times"
+              class="p-button-text"
+              @click="deleteProductDialog = false"
+            ></p-button>
+            <p-button
+              label="Yes"
+              icon="pi pi-check"
+              class="p-button-text"
+              @click="deleteProduct"
+            ></p-button>
+          </template>
+        </p-dialog>
+
+        <p-dialog
+          v-model:visible="deleteProductsDialog"
+          :style="{width: '450px'}"
+          header="Confirm"
+          :modal="true"
+        >
+          <div class="confirmation-content">
+            <i
+              class="pi pi-exclamation-triangle mr-3"
+              style="font-size: 2rem"
+            ></i>
+            <span v-if="product"
+              >Are you sure you want to delete the selected products?</span
+            >
+          </div>
+          <template #footer>
+            <p-button
+              label="No"
+              icon="pi pi-times"
+              class="p-button-text"
+              @click="deleteProductsDialog = false"
+            ></p-button>
+            <p-button
+              label="Yes"
+              icon="pi pi-check"
+              class="p-button-text"
+              @click="deleteSelectedProducts"
+            ></p-button>
+          </template>
+        </p-dialog>
+      </div>
+    </section>
+
+    <!-- NAVBAR -->
+  </body>
+</html>

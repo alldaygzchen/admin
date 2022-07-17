@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="table.css" />
+    <script src="dataTableData.js" defer></script>
+    <script src="index.js" defer></script>
+    <script src="dataTableScript.js" defer></script>
+    <title>Mplus Admin</title>
+  </head>
+
+  <body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+      <a href="#" class="brand"
+        ><i class="bx bxs-smile icon"></i> Mplus Admin</a
+      >
+      <ul class="side-menu">
+        <li>
+          <a href="#datatable" class="active"
+            ><i class="bx bxs-dashboard icon"></i> DataTables</a
+          >
+        </li>
+        <li class="divider" data-text="settings">Settings</li>
+        <li>
+          <a href="#"
+            ><i class="bx bxs-inbox icon"></i> Tables
+            <i class="bx bx-chevron-right icon-right"></i
+          ></a>
+          <ul class="side-dropdown">
+            <li><a href="#">App</a></li>
+            <li><a href="#">User</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#chart"><i class="bx bxs-chart icon"></i> Charts</a>
+        </li>
+        <!-- <li class="divider" data-text="forms"></li>
+        <li>
+          <a href="#"
+            ><i class="bx bxs-notepad icon"></i> Forms
+            <i class="bx bx-chevron-right icon-right"></i
+          ></a>
+          <ul class="side-dropdown">
+            <li><a href="#">APP</a></li>
+          </ul>
+        </li> -->
+      </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- NAVBAR -->
+    <section id="content">
+      <!-- NAVBAR -->
+      <nav>
+        <i class="bx bx-menu toggle-sidebar"></i>
+        <form action="#">
+          <div class="form-group">
+            <input type="text" placeholder="Search..." />
+            <i class="bx bx-search icon"></i>
+          </div>
+        </form>
+
+        <span class="divider"></span>
+        <div class="profile">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/thumb/3/33/Patrick_Star.svg/1200px-Patrick_Star.svg.png"
+            alt=""
+          />
+          <ul class="profile-link">
+            <li>
+              <a href="#"><i class="bx bxs-user-circle icon"></i> Profile</a>
+            </li>
+            <li>
+              <a href="#"><i class="bx bxs-cog"></i> Settings</a>
+            </li>
+            <li>
+              <a href="#"><i class="bx bxs-log-out-circle"></i> Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- NAVBAR -->
+
+      <!-- MAIN -->
+      <main id="datatable">
+        <div class="datatable-title">
+          <h1 class="title">DataTables</h1>
+          <span><i class="bx bxs-filter-alt"></i></span>
+        </div>
+
+        <div class="tool-box">
+          <form id="tool-box-criteria">
+            <div>
+              <label for="limit">Limit:</label>
+              <select name="limit" id="limit">
+                <option value="10">10/page</option>
+                <option value="20">20/page</option>
+                <option value="30">30/page</option>
+              </select>
+            </div>
+            <div>
+              <label for="user">User:</label>
+              <input type="text" id="user" placeholder="User" />
+            </div>
+            <div>
+              <label for="app">App:</label>
+              <select name="app" id="limit">
+                <option value="Reward">Reward</option>
+                <option value="Bus">Bus</option>
+              </select>
+            </div>
+            <div>
+              <label for="createDate">Create Date:</label>
+              <input type="date" name="createDate" id="createDate" />
+            </div>
+            <div>
+              <label for="updatetDate">Update Date:</label>
+              <input type="date" name="updatetDate" id="updatetDate" />
+            </div>
+            <button type="submit">submit</button>
+          </form>
+        </div>
+
+        <div id="datatable-pagination"></div>
+
+        <table class="datatable-content">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>App</th>
+              <th>Role</th>
+              <th>Create Date</th>
+              <th>Update Date</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </main>
+
+      <!-- <main id="chart">
+        <h1>Hello chart</h1>
+      </main> -->
+      <!-- MAIN -->
+    </section>
+    <!-- NAVBAR -->
+  </body>
+</html>

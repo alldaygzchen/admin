@@ -1,0 +1,106 @@
+.datatable-title {
+  display: flex;
+  align-items: center;
+}
+.datatable-title h1 {
+  margin-right: 20px;
+}
+
+.datatable-title span i {
+  font-size: 20px;
+}
+/* ====================================================================== */
+.datatable-content {
+  border-collapse: collapse;
+  /* margin: 25px 0; */
+  margin: auto;
+  font-size: 0.9em;
+  width: 100%;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  /* overflow: hidden; */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.datatable-content thead tr {
+  background-color: var(--blue);
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+.datatable-content th,
+.datatable-content td {
+  /* padding: 12px 15px; */
+  padding: 6px 7px;
+}
+
+.datatable-content tbody tr {
+  border-bottom: 1px solid #dddddd;
+  background-color: var(--light);
+  text-align: center;
+}
+
+.datatable-content tbody tr:nth-of-type(even) {
+  background-color: var(--grey);
+}
+
+/* ====================================================================== */
+/* tool-box */
+
+.tool-box {
+  margin-bottom: 20px;
+}
+
+.tool-box form {
+  border-radius: 5px;
+  background-color: var(--light);
+}
+
+.tool-box input,
+.tool-box select {
+  margin-left: 10px;
+  border: 1px solid rgb(184, 184, 184);
+  padding: 0.25rem;
+  color: rgb(61, 58, 58);
+  width: 120px;
+}
+
+#tool-box-criteria {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+
+  align-items: center;
+}
+
+#tool-box-criteria div {
+  margin: 10px;
+}
+
+#tool-box-criteria button {
+  margin: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  color: var(--light);
+  background-color: var(--blue);
+  border: none;
+  width: 70px;
+}
+/* ====================================================================== */
+/* pagination */
+
+#datatable-pagination {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+#datatable-pagination .page {
+  background-color: var(--light);
+  color: var(--dark);
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 40px;
+  border: none;
+}

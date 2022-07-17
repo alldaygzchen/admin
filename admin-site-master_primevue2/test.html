@@ -1,0 +1,112 @@
+<script type="module">
+  const { createApp, ref, onMounted } = Vue;
+
+  const App = {
+    setup() {
+      onMounted(() => {
+        loading.value = true;
+
+        lazyParams.value = {
+          first: 0,
+          rows: dt.value.rows,
+          sortField: null,
+          sortOrder: null,
+          filters: filters.value,
+        };
+
+        loadLazyData();
+      });
+
+      const dt = ref();
+      const loading = ref(false);
+      const totalRecords = ref(0);
+      const customers = ref();
+      const selectedCustomers = ref();
+      const selectAll = ref(false);
+      const customerService = ref(new CustomerService());
+      const filters = ref({
+        name: { value: "", matchMode: "contains" },
+        "country.name": { value: "", matchMode: "contains" },
+        company: { value: "", matchMode: "contains" },
+        "representative.name": { value: "", matchMode: "contains" },
+      });
+      const lazyParams = ref({});
+      const columns = ref([
+        { field: "name", header: "Name" },
+        { field: "country.name", header: "Country" },
+        { field: "company", header: "Company" },
+        { field: "representative.name", header: "Representative" },
+      ]);
+
+      const loadLazyData = () => {
+        loading.value = true;
+
+        setTimeout(() => {
+          customerService.value
+            .getCustomers({ lazyEvent: JSON.stringify(lazyParams.value) })
+            .then((data) => {
+              customers.value = data.customers;
+              totalRecords.value = data.totalRecords;
+              loading.value = false;
+            });
+        }, Math.random() * 1000 + 250);
+      };
+      const onPage = (event) => {
+        lazyParams.value = event;
+        loadLazyData();
+      };
+      const onSort = (event) => {
+        lazyParams.value = event;
+        loadLazyData();
+      };
+      const onFilter = () => {
+        lazyParams.value.filters = filters.value;
+        loadLazyData();
+      };
+
+      const onSelectAllChange = (event) => {
+        const selectAll = event.checked;
+
+        if (selectAll) {
+          customerService.value.getCustomers().then((data) => {
+            selectAll.value = true;
+            selectedCustomers.value = data.customers;
+          });
+        } else {
+          selectAll.value = false;
+          selectedCustomers.value = [];
+        }
+      };
+      const onRowSelect = () => {
+        selectAll.value = selectedCustomers.value.length === totalRecords.value;
+      };
+      const onRowUnselect = () => {
+        selectAll.value = false;
+      };
+
+      return {
+        dt,
+        loading,
+        totalRecords,
+        customers,
+        filters,
+        lazyParams,
+        columns,
+        loadLazyData,
+        onPage,
+        onSort,
+        onFilter,
+        onSelectAllChange,
+        onRowSelect,
+        onRowUnselect,
+      };
+    },
+    components: {
+      "p-datatable": primevue.datatable,
+      "p-column": primevue.column,
+      "p-inputtext": primevue.inputtext,
+    },
+  };
+
+  createApp(App).use(primevue.config.default).mount("#app");
+</script>

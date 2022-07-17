@@ -1,0 +1,28 @@
+    <div id="sidebar">
+			<p-button icon="pi pi-align-justify" @click="visibleLeft = true" class="p-button-text mr-2" ></p-button>
+			<p-sidebar v-model:visible="visibleLeft" :base-z-index="10000">
+        <div>
+          <h1>M+ Admin</h1>
+          <ul class="side-menu">
+            <li>
+              <a href="#datatable" class="active"
+                ><i class="bx bxs-dashboard icon"></i> DataTables</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="bx bxs-inbox icon"></i> Tables
+                <i class="bx bx-chevron-right icon-right"></i
+              ></a>
+              <ul class="side-dropdown">
+                <li><a href="#">App</a></li>
+                <li><a href="#">User</a></li>
+              </ul>
+            </li>
+          </ul>
+
+        </div>
+
+
+			</p-sidebar>
+		</div>

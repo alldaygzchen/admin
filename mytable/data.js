@@ -1,0 +1,18 @@
+let tableData = [
+  { name: "a", quantity: 29, price: 1.2, expiry: "2021-09-01" },
+  { name: "b", quantity: 55, price: 3.3, expiry: "2021-09-02" },
+  { name: "c", quantity: 25, price: 2.5, expiry: "2021-09-03" },
+  { name: "d", quantity: 8, price: 0.8, expiry: "2021-09-04" },
+  { name: "e", quantity: 81, price: 4.0, expiry: "2021-09-05" },
+  { name: "f", quantity: 18, price: 5.2, expiry: "2021-09-06" },
+  { name: "g", quantity: 82, price: 5.0, expiry: "2021-09-07" },
+  { name: "h", quantity: 38, price: 8.9, expiry: "2021-09-08" },
+  { name: "i", quantity: 84, price: 5.6, expiry: "2021-09-09" },
+  { name: "j", quantity: 58, price: 1.3, expiry: "2021-09-10" },
+  { name: "k", quantity: 86, price: 18, expiry: "2021-09-11" },
+  { name: "l", quantity: 78, price: 1.9, expiry: "2021-09-12" },
+  { name: "m", quantity: 88, price: 0.9, expiry: "2021-09-13" },
+  { name: "n", quantity: 88, price: 9.8, expiry: "2021-09-14" },
+  { name: "o", quantity: 89, price: 2.8, expiry: "2021-09-15" },
+  { name: "p", quantity: 98, price: 1.8, expiry: "2021-09-16" },
+];

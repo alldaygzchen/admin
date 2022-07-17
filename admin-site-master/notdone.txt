@@ -1,0 +1,4 @@
+overflow x and overflow y
+text-align: center;
+https://support.smartbear.com/qacomplete/docs/developer/api/rest/api/reference/paging.html
+https://itnext.io/adding-sql-server-pagination-to-an-outsystems-rest-api-method-f1a4aa8f2aac
